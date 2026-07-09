@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-score-low: var(--score-low);
+  --color-score-mid: var(--score-mid);
+  --color-score-high: var(--score-high);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --font-sans: var(--font-geist), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+:root {
+  color-scheme: dark;
+  /* deep navy like in the reference */
+  --background: oklch(0.16 0.03 255);
+  --foreground: oklch(0.95 0.01 240);
+  --card: oklch(0.21 0.035 255);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.21 0.035 255);
+  --popover-foreground: oklch(0.95 0.01 240);
+  /* neon cyan accent */
+  --primary: oklch(0.85 0.15 195);
+  --primary-foreground: oklch(0.15 0.03 255);
+  --secondary: oklch(0.26 0.04 255);
+  --secondary-foreground: oklch(0.95 0.01 240);
+  --muted: oklch(0.24 0.035 255);
+  --muted-foreground: oklch(0.65 0.02 245);
+  --accent: oklch(0.85 0.15 195);
+  --accent-foreground: oklch(0.15 0.03 255);
+  --destructive: oklch(0.63 0.22 25);
+  --border: oklch(0.32 0.04 255);
+  --input: oklch(0.28 0.04 255);
+  --ring: oklch(0.85 0.15 195);
+  /* score bar colors */
+  --score-low: oklch(0.62 0.21 27);
+  --score-mid: oklch(0.75 0.17 65);
+  --score-high: oklch(0.85 0.2 130);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes scan-line {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: calc(100% - 3px);
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 24px 2px color-mix(in oklch, var(--primary) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 44px 8px color-mix(in oklch, var(--primary) 70%, transparent);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+}
+
+@keyframes mesh-dot-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.mesh-dot {
+  fill: var(--primary);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: drop-shadow(0 0 2px var(--primary));
+  animation: mesh-dot-in 0.5s ease-out forwards, mesh-dot-pulse 2.4s ease-in-out 1.5s infinite;
+}
+
+@keyframes mesh-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes mesh-line-in {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 60;
+  }
+  100% {
+    opacity: 0.55;
+    stroke-dashoffset: 0;
+  }
+}
+
+.mesh-line {
+  stroke: var(--primary);
+  stroke-width: 0.35;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  opacity: 0;
+  animation: mesh-line-in 0.6s ease-out forwards;
+}
